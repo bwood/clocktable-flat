@@ -1,6 +1,6 @@
 # Goal #
 
-Create a clocktable with flattened columns suitable to importing into IST WPS Project Tracking Spreadsheet of this format:
+Create an Emacs Orgmode clocktable with flattened columns suitable to importing into IST WPS Project Tracking Spreadsheet of this format:
 
 ```
 Date, Project, Hours, Notes
