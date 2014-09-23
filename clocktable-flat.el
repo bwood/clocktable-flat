@@ -1,6 +1,5 @@
 (defcustom org-clock-clocktable-flat-columns
-  '("Invoice Date" "Invoice Number" "Customer Name"
-    "Item Name" "Item Desc" "Quantity" "Item Price")
+  '("Date" "Project")
   "Columns for the org-clocktable-write-flat clocktable formatter.
 Default value matches the ZOHO CSV import format."
   :group 'org-clocktable
@@ -29,10 +28,7 @@ Several other columns are calculated automatically:
     Quantity: The clocktime.  Useful with the `;t' formatter to get a
               decimal billable time.
 "
-  (let ((date (format-time-string "%Y-%m-%d"))
-       (customer (plist-get params :customer))
-       (number (plist-get params :number))
-       (price (plist-get params :price))
+  (let ((date (format-time-string "%Y/%m/%d"))
        (columns (or (plist-get params :columns)
                     org-clock-clocktable-flat-columns)))
     (insert "\n|")
@@ -55,20 +51,18 @@ Several other columns are calculated automatically:
                    (insert "|")
                    (dolist (column columns)
                      (cond
-                      ((equal column "Invoice Date") (insert date))
-                      ((equal column "Invoice Number") (insert number))
-                      ((equal column "Customer Name") (insert customer))
-                      ((equal column "Item Name")
+                      ((equal column "Date") (insert date))
+                      ((equal column "Project")
                        (dotimes (parent-idx (length parents))
                          (insert (nth parent-idx parents))
                          (if (not (or (= parent-idx 0)
                                       (= parent-idx (- (length parents) 1))))
-                             (insert "/"))))
-                      ((equal column "Item Desc") (insert (cadr row)))
-                      ((equal column "Quantity")
-                       (insert (org-minutes-to-hh:mm-string (nth 3 row))))
-                      ((equal column "Item Price")
-                       (insert (format "%s" price))))
+                             (insert "/"))))                       )
+                      ;((equal column "Item Desc") (insert (cadr row))) ;this is (car (cdr cons-cell)) or (nth 1 cons-cell)
+                      ;((equal column "Quantity")
+                      ; (insert (org-minutes-to-hh:mm-string (nth 3 row))))
+;                      ((equal column "Item Price")
+ ;                      (insert (format "%s" price)))
                      (insert "|"))
                    (insert "\n"))))))))
     (insert "#+TBLFM: " (plist-get params :formula))
