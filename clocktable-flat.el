@@ -53,56 +53,26 @@ Several other columns are calculated automatically:
                    (dolist (column columns)
                      (cond
                       ((equal column "Date") (insert date))
-; from org-clock.el.gz write default
-;		       ((equal column "Project") (insert (if properties (make-string (length properties) ?|) "")))
 		      ((equal column "Project") 
 		       (insert
+                       ; from org-clock.el.gz: org-clocktable-write-default
 			(if properties
 			    (concat
 			     (mapconcat
 			      (lambda (p) (or (cdr (assoc p (nth 4 row))) ""))
 		              properties "") "") "")))  ;properties columns, maybe
-;---
-;                      ((equal column "Project") (insert (nth 4 row))); Wrong type argument, char-or-string-p, (("wps" . "Administration"))
-;                      ((equal column "Project") (insert (cadr row))); yeilds first element "Verify CalTime..."
-;                      ((equal column "Project") (insert (last row))); ; Wrong type argument, char-or-string-p, (("wps" . "Administration"))
-;                      ((equal column "Project") 
-;		       (let (proj (last row)))
-;		       (insert proj))
-;                      ((equal column "Project") (insert (caar row)));
-;                      ((equal column "Project") (insert (cdr row))); Wrong type. yields the list from item 2
-;                      ((equal column "Project") (insert (car row))); yeilds ^B
-;                      ((equal column "Project") (insert (cadr (nth 4 row)))); no
-;                      ((equal column "Project") (insert (nth 1 (nth 4 row)))); wrong type argument, char-or-string-p, nil
-;                      ((equal column "Project") (insert (nth 2 (nth 1 (nth 4 row))))); wrong type argument, char-or-string-p, nil
-;                      ((equal column "Project") (insert (org-property-or-variable-value (nth 4 row)))); wrong type argument, symbol-p, (("wps". "Admin...
-;                      ((equal column "Project") (insert (org-property-or-variable-value (nth 1 (nth 4 row)))))
-;                      ((equal column "Project") (let ((this (nth 4 row)))) 
-;		                                (insert this))
-;                      ((equal column "Project") (insert (get-text-property 1 (nth 4 row))))
-;                      ((equal column "Project") (insert (cdr row)))
-;                      ((equal column "Project") (insert "test project")); works
-; 
-;                      ((equal column "Project") (insert (type-of row))); wrong type. got cons
-;                      ((equal column "Project") (insert (cdr (nth 4 row)))); wrong type. got nil
-;                      ((equal column "Project") (insert (cdr (nth 1 (nth 4 row))))); wrong type. got nil
-;                      ((equal column "Project") (insert ((nth 1 (nth 4 row))))); invalid function
-;                      ((equal column "Project") (insert (nth 1 (nth 4 row))))
-;                      ((equal column "Project") (insert plist-get (nth 4 row) wps)); symbol's value as variable is void
-;                      ((equal column "Project") (insert plist-get ("wps" . "admin") "wps")); symbol's value as variable is void
-; --- req plist get above
-;                      ((equal column "Project") (insert car project))		    
                       ((equal column "Notes") 
                        (dotimes (parent-idx (length parents))
                          (insert (nth parent-idx parents))
                          (if (not (or (= parent-idx 0)
                                       (= parent-idx (- (length parents) 1))))
-                             (insert "/"))))                       )
+                             (insert "/"))))                       
                       ;((equal column "Item Desc") (insert (cadr row))) ;this is (car (cdr cons-cell)) or (nth 1 cons-cell)
-;                      ((equalope column "Hours")
-;                       (insert (org-minutes-to-hh:mm-string (nth 3 row))))
+                      ((equal column "Hours")
+                       (insert (org-minutes-to-hh:mm-string (nth 3 row))))
 ;                      ((equal column "Item Price")
  ;                      (insert (format "%s" price)))
+)
                      (insert ","))
                    (insert "\n"))))))))))
 ;    (insert "#+TBLFM: " (plist-get params :formula))
