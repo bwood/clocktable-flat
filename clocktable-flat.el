@@ -34,14 +34,10 @@ Several other columns are calculated automatically:
 	(columns (or (plist-get params :columns)
                     org-clock-clocktable-flat-columns)))
 
-     (custom-set-variables
-      '(org-display-custom-times t)
-      '(org-time-stamp-custom-formats (quote ("<%m/%d/%Y>" . "<%m/%d/%Y [%H:%M]>"))))  
-
-    (insert "\n")
-    (dolist (column columns)
-      (insert column ","))
-    (insert "\n")
+;    (insert "\n")
+;    (dolist (column columns)   ; for our purposes we don't need the headers
+;      (insert column ","))
+;    (insert "\n")
     (dolist (table tables)
       (let ((rows (nth 2 table)) ;rows 2nd element of table list
            (parents (list ""))) ; parents = empty list
@@ -59,9 +55,8 @@ Several other columns are calculated automatically:
                    (dolist (column columns)
                      (cond
                       ((equal column "Date")
-		       (insert ts)); [2014-09-22 Mon]
-;		       (insert (seconds-to-time ts))); ts is wrong type
-;		       (format-time-string "%Y/%m/%d" (org-time-stamp-format nil t) (seconds-to-time ts))): wrong type
+		       (when (string-match "\\([[:digit:]]+\\)-\\([[:digit:]]+\\)-\\([[:digit:]]+\\)" ts)
+			 (insert (match-string 2 ts) "/" (match-string 3 ts) "/" (match-string 1 ts))))
 		      ((equal column "Project") 
 		       (insert
                        ; from org-clock.el.gz: org-clocktable-write-default
@@ -85,10 +80,7 @@ Several other columns are calculated automatically:
  ;                      (insert (format "%s" price)))
 )
                      (insert ","))
-                   (insert "\n"))))))))
-    ; unset the custom date format
-    (custom-set-variables
-     '(org-display-custom-times nil))))
+                   (insert "\n"))))))))))
 ;    (insert "#+TBLFM: " (plist-get params :formula))
 ;    (org-ctrl-c-ctrl-c)
 ;    (goto-char ipos)
