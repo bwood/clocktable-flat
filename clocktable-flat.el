@@ -75,7 +75,7 @@ Several other columns are calculated automatically:
 ;                            (insert "/"))))                       
                       ;((equal column "Item Desc") (insert (cadr row))) ;this is (car (cdr cons-cell)) or (nth 1 cons-cell)
                       ((equal column "Hours")
-                       (insert (number-to-string(/ (nth 3 row) 60.0))))
+                       (insert (format "%0.2f" (/ (nth 3 row) 60.0))))
 ;                      ((equal column "Item Price")
  ;                      (insert (format "%s" price)))
 )
