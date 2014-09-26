@@ -28,10 +28,12 @@ Several other columns are calculated automatically:
     Quantity: The clocktime.  Useful with the `;t' formatter to get a
               decimal billable time.
 "
-  (let ((date (format-time-string "%Y/%m/%d"))
-	(properties (plist-get params :properties))
+   (let ((properties (plist-get params :properties))
+	(ts (plist-get params :tstart))
+	(te (plist-get params :tend))
 	(columns (or (plist-get params :columns)
                     org-clock-clocktable-flat-columns)))
+
     (insert "\n")
     (dolist (column columns)
       (insert column ","))
@@ -52,7 +54,10 @@ Several other columns are calculated automatically:
 ;                   (insert ",")
                    (dolist (column columns)
                      (cond
-                      ((equal column "Date") (insert date))
+                      ((equal column "Date")
+		       (insert ts)); [2014-09-22 Mon]
+;		       (insert (seconds-to-time ts))); ts is wrong type
+;		       (format-time-string "%Y/%m/%d" (org-time-stamp-format nil t) (seconds-to-time ts))): wrong type
 		      ((equal column "Project") 
 		       (insert
                        ; from org-clock.el.gz: org-clocktable-write-default
@@ -62,11 +67,13 @@ Several other columns are calculated automatically:
 			      (lambda (p) (or (cdr (assoc p (nth 4 row))) ""))
 		              properties "") "") "")))  ;properties columns, maybe
                       ((equal column "Notes") 
-                       (dotimes (parent-idx (length parents))
-                         (insert (nth parent-idx parents))
-                         (if (not (or (= parent-idx 0)
-                                      (= parent-idx (- (length parents) 1))))
-                             (insert "/"))))                       
+		       (insert (nth 1 row)))
+; Would be nice to get this working
+;                       (dotimes (parent-idx (length parents))
+;                         (insert (nth parent-idx parents))
+;                         (if (not (or (= parent-idx 0)
+;                                      (= parent-idx (- (length parents) 1))))
+;                            (insert "/"))))                       
                       ;((equal column "Item Desc") (insert (cadr row))) ;this is (car (cdr cons-cell)) or (nth 1 cons-cell)
                       ((equal column "Hours")
                        (insert (number-to-string(/ (nth 3 row) 60.0))))
