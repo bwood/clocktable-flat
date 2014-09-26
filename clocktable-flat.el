@@ -34,6 +34,10 @@ Several other columns are calculated automatically:
 	(columns (or (plist-get params :columns)
                     org-clock-clocktable-flat-columns)))
 
+     (custom-set-variables
+      '(org-display-custom-times t)
+      '(org-time-stamp-custom-formats (quote ("<%m/%d/%Y>" . "<%m/%d/%Y [%H:%M]>"))))  
+
     (insert "\n")
     (dolist (column columns)
       (insert column ","))
@@ -81,7 +85,10 @@ Several other columns are calculated automatically:
  ;                      (insert (format "%s" price)))
 )
                      (insert ","))
-                   (insert "\n"))))))))))
+                   (insert "\n"))))))))
+    ; unset the custom date format
+    (custom-set-variables
+     '(org-display-custom-times nil))))
 ;    (insert "#+TBLFM: " (plist-get params :formula))
 ;    (org-ctrl-c-ctrl-c)
 ;    (goto-char ipos)
