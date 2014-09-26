@@ -66,7 +66,7 @@ Several other columns are calculated automatically:
 			      (lambda (p) (or (cdr (assoc p (nth 4 row))) ""))
 		              properties "") "") "")))  ;properties columns, maybe
                       ((equal column "Notes") 
-		       (insert (nth 1 row)))
+		       (insert "\"" (nth 1 row) "\""))
 ; Would be nice to get this working
 ;                       (dotimes (parent-idx (length parents))
 ;                         (insert (nth parent-idx parents))
@@ -79,7 +79,7 @@ Several other columns are calculated automatically:
 ;                      ((equal column "Item Price")
  ;                      (insert (format "%s" price)))
 )
-                     (insert ","))
+                     (insert ",")) ;should skip the comma at the end of the line
                    (insert "\n"))))))))))
 ;    (insert "#+TBLFM: " (plist-get params :formula))
 ;    (org-ctrl-c-ctrl-c)
