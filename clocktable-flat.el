@@ -1,15 +1,15 @@
 (defcustom org-clock-clocktable-flat-columns
   '("Date" "Project" "Hours" "Notes")
-  "Columns for the org-clocktable-write-flat clocktable formatter.
-Default value matches the ZOHO CSV import format."
+  "Columns for the org-clocktable-write-flat clocktable formatter."
   :group 'org-clocktable
   :type '(repeat string))
 
 
 (defun org-clocktable-write-flat (ipos tables params)
   "Write out a flat clock table at position IPOS in the current
-buffer.  Useful to render a table which can be exported to CSV and
-then imported into accounting/invoiving tools such as Zoho Invoicing.
+buffer. Useful to render a table which can be exported to CSV and
+then imported into accounting/invoiving tools.
+
 TABLES is a list of tables with clocking data as produced by
 `org-clock-get-table-data'.
 
